@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import Input from "../generic/form/Input.vue";
 import Button from "../generic/form/Button.vue";
+import messages from "./messages";
 
 // Store the text input value. This is a reactive 'state' variable.
 const text = ref("");
@@ -22,7 +23,9 @@ const emit = defineEmits(["send"]);
  */
 function send() {
   // Hint: Call 'emit' with the correct arguments.
-  //       Finally, clear the text input.
+  emit("send", text.value);
+  // Finally, clear the text input.
+  text.value = "";
 }
 </script>
 
@@ -32,10 +35,15 @@ function send() {
       <!-- Hint: See if you could send the message by pressing the enter key in the text field.
                  https://vuejs.org/guide/essentials/event-handling.html#key-modifiers
       -->
-      <Input :value="text" placeholder="Type a message" @change="onChange" />
+      <Input
+        :value="text"
+        placeholder="Type a message"
+        @change="onChange"
+        @keyup.enter="send"
+      />
 
       <!-- Hint: Call the 'send()' function when the button emits a 'click' event. -->
-      <Button icon="send" />
+      <Button icon="send" @click="send" />
     </div>
   </div>
 </template>
